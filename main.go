@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -21,6 +22,11 @@ type Director struct {
 }
 
 var movies []Movie
+
+func getMovies(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(res).Encode(movies)
+}
 
 func main() {
 	route := mux.NewRouter()
