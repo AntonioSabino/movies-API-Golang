@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -49,6 +51,15 @@ func getMovieById(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 	}
+}
+
+func createMovie(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json")
+	var movie Movie
+	_ = json.NewDecoder(req.Body).Decode(&movie)
+	movie.ID = strconv.Itoa(rand.Intn(100000000))
+	movies = append(movies, movie)
+	json.NewEncoder(res).Encode(movie)
 }
 
 func main() {
